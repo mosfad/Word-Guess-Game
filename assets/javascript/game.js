@@ -3,9 +3,9 @@ var numWins = 0;       //Number of wins so far(all the rounds).
 
 var numEmptySlots;     //How many slots left to complete the name of the movie.
 var currGuess;         //Letter the user just chose.
-var currFilm;         //Name of random movie chosen for the current round.
-var matchedGuess = []; //Holds correctly guessed letters that match movie name.
-var allGuessed = [];   //Holds all guessed letters to avoid repetitions, which don't affect numGuess.
+//var currFilm;         //Name of random movie chosen for the current round.
+//var matchedGuess = []; //Holds correctly guessed letters that match movie name.
+   //Holds all guessed letters to avoid repetitions, which don't affect numGuess.
 //The game object is strictly for debugging purposes.
 var game = {BRAVEHEART: "1", SPEED: "2", TITANIC: "3", GHOST: "4", 
 filmTitles: ["BRAVEHEART", "SPEED", "TITANIC", "GHOST"],
@@ -33,27 +33,63 @@ var ninetiesGame = {"BRAVEHEART": "1", "SEINFELD": "2", "SPEED": "3", "ARMAGEDDO
 filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "THE SIMPSONS", "FAMILY MATTERS", 
 "INDEPENDENCE DAY", "FORREST GUMP", "PRETTY WOMAN", "BEFORE SUNRISE", "LION KING", "TOY STORY", "THE MATRIX", "BAD BOYS", "GOOD FELLAS", 
 "BOYZ IN THE HOOD", "HE GOT GAME", "SAVING PRIVATE RYAN"], 
+numGuess: 0,
+currFilm: "",
+currClip: "",
+validGuess: [],
+allGuess: [],
+multPosGuess: [],
 isRandFilm: true,
+onlySpaces: false,  //haven't processed yet.
 
-getRandFilm: function() {
-    //return a film title using a random function.
+setCurrFilm: function() {
+    //sets a film title using a random function.
     var index = Math.floor(Math.random() * this.filmTitles.length); //using "this" keyword is necessary to reference filmTitles in this object.
     //console.log(index);
-    return this.filmTitles[index];
+    this.currFilm = this.filmTitles[index];
+    //also update the number of guesses for each new (random) film title
+    this.updateNumGuess()
 },
 
-getClipFilm: function(rf) {
-    var randFilm = rf;
-    //return link for a short video clip, when user correctly guesses the random film.
+setClipFilm: function() {
+    //sets link for a short video clip, when user correctly guesses the random film.
     //console.log(randFilm);
     if (this.isRandFilm) {
         //---------------Getting undefined message on console----------------------------what is wrong here?
         //console.log(this.randFilm): "this.randFilm" is incorrect because...........
-        return this[randFilm]; 
+        this.currClip = this[this.currFilm]; 
+    }
+},
+
+updateNumGuess: function() {
+    if (this.numGuess === 0) {
+        console.log("Right execution flow? Yes.....")
+        this.numGuess = this.currFilm.length + 3;
+    }
+    else {
+        console.log("Haven't tested the execution of this block of code!")
+        this.numGuess = this.validGuess.length + this.multPosGuess.length;
+    }
+},
+
+addLetterGuessed: function(newLetter, rFilm) {
+    //adds letter guessed to the array that records all guesses for this round.
+    this.allGuess.push(newLetter);
+    for (var i=0; i < rFilm.length; i++){
+        //also keep track of numbers added multiple times.**************************************
+        if (rFilm.charAt(i) === newLetter && !this.validGuess.includes(newLetter)){
+            //adds a letter to the array that records correctly guessed letters.
+            this.validGuess.push(newLetter);
+        }
+        else if (rFilm.charAt(i) === newLetter && this.validGuess.includes(newLetter)){
+            //add guessed letter that are repeated in the film title in a specific array.
+            this.multPosGuess.push(newLetter);
+        }
     }
 }
 };
-var randomFilm = ninetiesGame.getRandFilm();
-console.log(randomFilm);
-var randomClip = ninetiesGame.getClipFilm(randomFilm);
-console.log(randomClip);
+ninetiesGame.setCurrFilm();
+console.log(ninetiesGame.currFilm);
+ninetiesGame.setClipFilm();
+console.log(ninetiesGame.currClip);
+console.log(ninetiesGame.numGuess);
