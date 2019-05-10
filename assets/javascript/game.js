@@ -36,11 +36,13 @@ filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST"
 numGuess: 0,
 currFilm: "",
 currClip: "",
-validGuess: [],
+//validGuess: [],   //Turn this array to an object, so that the indices can be the value pair????????******************************
 allGuess: [],
-multPosGuess: [],
+//multPosGuess: [], //may not need this array???
+currState: [],    //Array holds the current state of the game(empty slots, correct guesses or a combination of both)
+
 isRandFilm: true,
-onlySpaces: false,  //haven't processed yet.
+onlySpaces: false,  //haven't processed yet!!!
 
 setCurrFilm: function() {
     //sets a film title using a random function.
@@ -60,7 +62,7 @@ setClipFilm: function() {
         this.currClip = this[this.currFilm]; 
     }
 },
-
+/* I THINK THIS OBJECT FUNCTION IS UNNECESSARY
 updateNumGuess: function() {
     if (this.numGuess === 0) {
         console.log("Right execution flow? Yes.....")
@@ -70,9 +72,22 @@ updateNumGuess: function() {
         console.log("Haven't tested the execution of this block of code!")
         this.numGuess = this.validGuess.length + this.multPosGuess.length;
     }
-},
+},*/
 
-addLetterGuessed: function(newLetter, rFilm) {
+isLetterValid: function(newLetter) {
+    //Returns a boolean, indicating whether the letter picked by the user is valid(non-repeating).
+    if (currState.includes(newLetter)) {
+        return false;
+    }
+    else{
+        return true;
+    }
+    
+},
+/* DON'T THINK I NEED THIS====================================================================================================================
+//Instaed of worrying about position of multiple entries via multPosGuess, why not use indices to keep track of the 
+//position of valid guesses, including the ones that occupy multiple positions.***************************************************************
+addLetterGuess: function(newLetter, rFilm) {
     //adds letter guessed to the array that records all guesses for this round.
     this.allGuess.push(newLetter);
     for (var i=0; i < rFilm.length; i++){
@@ -86,6 +101,36 @@ addLetterGuessed: function(newLetter, rFilm) {
             this.multPosGuess.push(newLetter);
         }
     }
+},*/
+
+addLetterGuessed: function(nLetter) {
+    //adds letter guessed to two arrays and update number of user guesses.
+    var userLetter = nLetter;
+    if (isLetterValid(userLetter)) {
+        //update number of guesses
+        this.numGuess++;
+        //add guess to the array recording all the guesses
+        this.allGuess.push(userLetter);
+
+
+    }
+},
+
+createCurrState: function() {
+    //Creates an array which shows the current state of the game to the user.The user will see a formatted version of this array.
+    for (var i = 0; i < this.currFilm.length; i++) {
+        if (i !== (this.currFilm.length - 1)) {
+            this.currState[i].push("_ ");
+        }
+        else {
+            this.currState[i].push("_");
+        }
+    }
+},
+
+updateCurrState: function() {
+    //Changes the array which shows the current state of the game after a successful guess by the user.
+
 }
 };
 ninetiesGame.setCurrFilm();
@@ -93,3 +138,4 @@ console.log(ninetiesGame.currFilm);
 ninetiesGame.setClipFilm();
 console.log(ninetiesGame.currClip);
 console.log(ninetiesGame.numGuess);
+S P E _  D
