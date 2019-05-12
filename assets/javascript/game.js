@@ -4,7 +4,7 @@ var numWins = 0;       //Number of wins so far(all the rounds).
 
 
 //ninetiesGame is the object for the project.
-var ninetiesGame = {"BRAVEHEART": '<iframe width="560" height="315" src="https://www.youtube.com/embed/1NJO0jxBtMo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "SEINFELD": '<iframe width="560" height="315" src="https://www.youtube.com/embed/4T2GmGSNvaM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "SPEED": '<iframe width="560" height="315" src="https://www.youtube.com/embed/Fk4A1AY10U0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "ARMAGEDDON": '<iframe width="560" height="315" src="https://www.youtube.com/embed/kg_jH47u480" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "TITANIC": '<iframe width="560" height="315" src="https://www.youtube.com/embed/2e-eXJ6HgkQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "GHOST": '<iframe width="560" height="315" src="https://www.youtube.com/embed/7g8txBxL7zg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIDAY": '<iframe width="560" height="315" src="https://www.youtube.com/embed/nH1Ulp4PBtA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIENDS": '<iframe width="560" height="315" src="https://www.youtube.com/embed/1lMIh9dYNb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 
+var ninetiesGame = {"BRAVEHEART": 'src="https://www.youtube.com/embed/1NJO0jxBtMo"', "SEINFELD": 'src="https://www.youtube.com/embed/4T2GmGSNvaM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "SPEED": '<iframe width="560" height="315" src="https://www.youtube.com/embed/Fk4A1AY10U0"', "ARMAGEDDON": 'src="https://www.youtube.com/embed/kg_jH47u480"', "TITANIC": '<iframe width="560" height="315" src="https://www.youtube.com/embed/2e-eXJ6HgkQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "GHOST": '<iframe width="560" height="315" src="https://www.youtube.com/embed/7g8txBxL7zg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIDAY": '<iframe width="560" height="315" src="https://www.youtube.com/embed/nH1Ulp4PBtA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIENDS": '<iframe width="560" height="315" src="https://www.youtube.com/embed/1lMIh9dYNb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 
 "ER": '<iframe width="560" height="315" src="https://www.youtube.com/embed/LjPf1_3H3fs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRASIER": '<iframe width="560" height="315" src="https://www.youtube.com/embed/JbRbfj7Ig74" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "MARTIN": '<iframe width="560" height="315" src="https://www.youtube.com/embed/RWbJ-reslRs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "CHEERS": '<iframe width="560" height="315" src="https://www.youtube.com/embed/l5betsZNsGM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 
 filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "FRASIER", "MARTIN", "CHEERS"], 
 numGuess: 0,
@@ -47,7 +47,7 @@ isLetterValid: function(newKey) {
     //Returns a boolean, indicating whether the letter picked by the user is valid(non-repeating).
     var letterStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     var indexOfKey = letterStr.indexOf(newKey);
-    if (this.currState.includes(newKey) || indexOfKey === -1) {
+    if (this.currState.includes(newKey)|| indexOfKey === -1) {
         return false;
     }
     else{
@@ -117,6 +117,29 @@ ninetiesGame.setClipFilm();
 //console.log("link # of random film: " + ninetiesGame.currClip);  //ok
 console.log("The number of guesses left " + ninetiesGame.numGuess); //ok
 
+//display the number of guess as the game begins.
+var pg = document.createElement("p");
+var pn = document.createTextNode(ninetiesGame.numGuess);
+pg.appendChild(pn);
+//document.getElementById("numGuess-id").appendChild(pg);
+
+
+//already guessed
+var ag = document.createElement("p");
+var an = document.createTextNode(ninetiesGame.currState);
+ag.appendChild(an);
+
+//wins
+var w = document.createElement("p");
+var wn = document.createTextNode(ninetiesGame.numGuess);
+w.appendChild(wn);
+
+//current state
+var cs = document.createElement("p");
+var cn = document.createTextNode(ninetiesGame.currState);
+cs.appendChild(cn);
+
+
 document.onkeyup = function(event) {
     //event is triggered when the user presses and releases a key
 
@@ -125,6 +148,12 @@ document.onkeyup = function(event) {
     //convert all user picks(letters) to uppercase.
     userPick = userPick.toUpperCase();
     console.log(userPick);
+    document.getElementById("numGuess-id").appendChild(pg);
+    document.getElementById("alreadyGuessed-id").appendChild(ag);
+    document.getElementById("currState-id").appendChild(cs);
+    document.getElementById("win-id").appendChild(w);
+
+
 
     console.log("==============================================================================");
     ninetiesGame.addLetterGuessed(userPick);
@@ -132,6 +161,9 @@ document.onkeyup = function(event) {
     console.log("User's guesses so far: " + ninetiesGame.allGuess);
     console.log("Current state of the round: " + ninetiesGame.currState);
     console.log("The number of guesses left " + ninetiesGame.numGuess);
+    pg.textContent= ninetiesGame.numGuess;
+    ag.textContent= ninetiesGame.allGuess;
+    cs.textContent= ninetiesGame.currState;
     console.log("==============================================================================");
     //if the rounds ends in a win or otherwise, then reset the game.
     if (ninetiesGame.numGuess === 0 || (!ninetiesGame.currState.includes("_ ") && !ninetiesGame.currState.includes("_"))) {
@@ -140,6 +172,9 @@ document.onkeyup = function(event) {
         if (!ninetiesGame.currState.includes("_ ") && !ninetiesGame.currState.includes("_")) {
             ninetiesGame.isRandFilm = true;
             console.log(ninetiesGame.currClip);
+            document.getElementById("title-id").textContent = ninetiesGame.currFilm;
+            document.getElementsByClassName("embed-responsive-item")[0].src = ninetiesGame.currClip;
+
         }
         ninetiesGame.resetGame();
         //preparing for a new round!
@@ -150,6 +185,8 @@ document.onkeyup = function(event) {
     }
     
     console.log(numWins);
+    w.textContent= numWins;
+
 
 
 
