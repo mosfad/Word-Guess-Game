@@ -1,49 +1,19 @@
-//var numGuess = 0;      //Number of guesses left for the current round.
+
 var numWins = 0;       //Number of wins so far(all the rounds).
 
-//var numEmptySlots;     //How many slots left to complete the name of the movie.
-//var currGuess;         //Letter the user just chose.
-//var currFilm;         //Name of random movie chosen for the current round.
-//var matchedGuess = []; //Holds correctly guessed letters that match movie name.
-   //Holds all guessed letters to avoid repetitions, which don't affect numGuess.
-//The game object is strictly for debugging purposes.
-var game = {BRAVEHEART: "1", SPEED: "2", TITANIC: "3", GHOST: "4", 
-filmTitles: ["BRAVEHEART", "SPEED", "TITANIC", "GHOST"],
-getRandFilm: function() {
-    //return a film title using a random function.
-    var index = Math.floor(Math.random() * this.filmTitles.length); //using "this" keyword is necessary to reference filmTitles in this object.
-    console.log(index);
-    return this.filmTitles[index];
-},
-getClipFilm: function(rf) {
-    var randFilm = rf;
-    //return link for a short video clip, when user correctly guesses the random film.
-    if (true) {
-        //---------------Getting undefined message on console----------------------------what is wrong here?
-        //console.log(this.randFilm);
-        return this[randFilm]; //this syntax "this.randFilm" is incorrect because...........
-    }
-},
-isRandFilm: true
-};
-var mulWordsFilms = {"BRAVEHEART": "1", "SEINFELD": "2", "SPEED": "3", "ARMAGEDDON": "4", "TITANIC": "5", "GHOST": "6", "FRIDAY": "7", "FRIENDS": "8", "ER": "9",
-"THE SIMPSONS": "10", "FAMILY MATTERS": "11", "INDEPENDENCE DAY": "12", "FORREST GUMP": "13", "PRETTY WOMAN": "14", "BEFORE SUNRISE": "15", "LION KING": "16", 
-"TOY STORY": "17", "THE MATRIX": "18", "BAD BOYS": "19", "GOOD FELLAS": "20", "BOYZ IN THE HOOD": "21", "HE GOT GAME": "22", "SAVING PRIVATE RYAN": "23"}
 
-//ninetiesGame is the actual object for the project.
-var ninetiesGame = {"BRAVEHEART": "1", "SEINFELD": "2", "SPEED": "3", "ARMAGEDDON": "4", "TITANIC": "5", "GHOST": "6", "FRIDAY": "7", "FRIENDS": "8", 
-"ER": "9", "FRASIER": "10", "MARTIN": "11", "CHEERS": "12", 
+
+//ninetiesGame is the object for the project.
+var ninetiesGame = {"BRAVEHEART": '<iframe width="560" height="315" src="https://www.youtube.com/embed/1NJO0jxBtMo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "SEINFELD": '<iframe width="560" height="315" src="https://www.youtube.com/embed/4T2GmGSNvaM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "SPEED": '<iframe width="560" height="315" src="https://www.youtube.com/embed/Fk4A1AY10U0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "ARMAGEDDON": '<iframe width="560" height="315" src="https://www.youtube.com/embed/kg_jH47u480" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "TITANIC": '<iframe width="560" height="315" src="https://www.youtube.com/embed/2e-eXJ6HgkQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "GHOST": '<iframe width="560" height="315" src="https://www.youtube.com/embed/7g8txBxL7zg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIDAY": '<iframe width="560" height="315" src="https://www.youtube.com/embed/nH1Ulp4PBtA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIENDS": '<iframe width="560" height="315" src="https://www.youtube.com/embed/1lMIh9dYNb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 
+"ER": '<iframe width="560" height="315" src="https://www.youtube.com/embed/LjPf1_3H3fs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRASIER": '<iframe width="560" height="315" src="https://www.youtube.com/embed/JbRbfj7Ig74" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "MARTIN": '<iframe width="560" height="315" src="https://www.youtube.com/embed/RWbJ-reslRs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "CHEERS": '<iframe width="560" height="315" src="https://www.youtube.com/embed/l5betsZNsGM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 
 filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "FRASIER", "MARTIN", "CHEERS"], 
 numGuess: 0,
 currFilm: "",
 currClip: "",
-//validGuess: [],   //Turn this array to an object, so that the indices can be the value pair????????******************************
 allGuess: [],
-//multPosGuess: [], //may not need this array???
 currState: [],    //Array holds the current state of the game(empty slots, correct guesses or a combination of both)
-
 isRandFilm: true, //Will use this boolean to return the clip that will play after the user successfully guesses the film title.
-//onlySpaces: false,  //haven't processed yet!!!
+
 
 
 setCurrFilm: function() {
@@ -85,24 +55,6 @@ isLetterValid: function(newKey) {
     }
     
 },
-/* DON'T THINK I NEED THIS====================================================================================================================
-//Instaed of worrying about position of multiple entries via multPosGuess, why not use indices to keep track of the 
-//position of valid guesses, including the ones that occupy multiple positions.***************************************************************
-addLetterGuess: function(newLetter, rFilm) {
-    //adds letter guessed to the array that records all guesses for this round.
-    this.allGuess.push(newLetter);
-    for (var i=0; i < rFilm.length; i++){
-        //also keep track of numbers added multiple times.**************************************
-        if (rFilm.charAt(i) === newLetter && !this.validGuess.includes(newLetter)){
-            //adds a letter to the array that records correctly guessed letters.
-            this.validGuess.push(newLetter);
-        }
-        else if (rFilm.charAt(i) === newLetter && this.validGuess.includes(newLetter)){
-            //add guessed letter that are repeated in the film title in a specific array.
-            this.multPosGuess.push(newLetter);
-        }
-    }
-},*/
 
 addLetterGuessed: function(nLetter) {
     //adds letter guessed to two arrays and update number of user guesses.
@@ -160,48 +112,10 @@ resetGame: function() {
 ninetiesGame.setCurrFilm();
 console.log("random film: " + ninetiesGame.currFilm);  //ok
 ninetiesGame.createCurrState();
-console.log(ninetiesGame.currState);  //? should be empty?!**********
+console.log(ninetiesGame.currState);  //
 ninetiesGame.setClipFilm();
 //console.log("link # of random film: " + ninetiesGame.currClip);  //ok
 console.log("The number of guesses left " + ninetiesGame.numGuess); //ok
-/*
-var checkLetterValid = ninetiesGame.isLetterValid("T");
-console.log("The letter pick is valid: " + checkLetterValid); //ok
-ninetiesGame.addLetterGuessed("T");
-ninetiesGame.updateCurrState("T");
-console.log("User's guesses so far: " + ninetiesGame.allGuess);  //ok
-console.log("Current state of the round: " + ninetiesGame.currState);  //ok
-console.log("The number of guesses left " + ninetiesGame.numGuess);
-console.log("==============================================================================");
-ninetiesGame.addLetterGuessed("A");
-ninetiesGame.updateCurrState("A");
-console.log("User's guesses so far: " + ninetiesGame.allGuess);
-console.log("Current state of the round: " + ninetiesGame.currState);
-console.log("The number of guesses left " + ninetiesGame.numGuess);
-console.log("==============================================================================");
-ninetiesGame.addLetterGuessed("E");
-ninetiesGame.updateCurrState("E");
-console.log("User's guesses so far: " + ninetiesGame.allGuess);
-console.log("Current state of the round: " + ninetiesGame.currState);
-console.log("The number of guesses left " + ninetiesGame.numGuess);
-console.log("==============================================================================");
-ninetiesGame.addLetterGuessed("B");
-ninetiesGame.updateCurrState("B");
-console.log("User's guesses so far: " +ninetiesGame.allGuess);
-console.log("Current state of the round: " + ninetiesGame.currState);
-console.log("The number of guesses left " + ninetiesGame.numGuess);
-console.log("==============================================================================");
-ninetiesGame.addLetterGuessed("I");
-ninetiesGame.updateCurrState("I");
-console.log("User's guesses so far: " +ninetiesGame.allGuess);
-console.log("Current state of the round: " + ninetiesGame.currState);
-console.log("The number of guesses left " + ninetiesGame.numGuess);
-console.log("==============================================================================");
-ninetiesGame.addLetterGuessed("O");
-ninetiesGame.updateCurrState("O");
-console.log("User's guesses so far: " +ninetiesGame.allGuess);
-console.log("Current state of the round: " + ninetiesGame.currState);
-console.log("The number of guesses left " + ninetiesGame.numGuess);*/
 
 document.onkeyup = function(event) {
     //event is triggered when the user presses and releases a key
@@ -225,6 +139,7 @@ document.onkeyup = function(event) {
         //if the round ended in a wiin, update number of wins.S
         if (!ninetiesGame.currState.includes("_ ") && !ninetiesGame.currState.includes("_")) {
             ninetiesGame.isRandFilm = true;
+            console.log(ninetiesGame.currClip);
         }
         ninetiesGame.resetGame();
         //preparing for a new round!
