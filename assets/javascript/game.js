@@ -1,8 +1,8 @@
-var numGuess = 0;      //Number of guesses left for the current round.
+//var numGuess = 0;      //Number of guesses left for the current round.
 var numWins = 0;       //Number of wins so far(all the rounds).
 
-var numEmptySlots;     //How many slots left to complete the name of the movie.
-var currGuess;         //Letter the user just chose.
+//var numEmptySlots;     //How many slots left to complete the name of the movie.
+//var currGuess;         //Letter the user just chose.
 //var currFilm;         //Name of random movie chosen for the current round.
 //var matchedGuess = []; //Holds correctly guessed letters that match movie name.
    //Holds all guessed letters to avoid repetitions, which don't affect numGuess.
@@ -26,13 +26,14 @@ getClipFilm: function(rf) {
 },
 isRandFilm: true
 };
-//ninetiesGame is the actual object for the project.
-var ninetiesGame = {"BRAVEHEART": "1", "SEINFELD": "2", "SPEED": "3", "ARMAGEDDON": "4", "TITANIC": "5", "GHOST": "6", "FRIDAY": "7", "FRIENDS": "8", "ER": "9",
+var mulWordsFilms = {"BRAVEHEART": "1", "SEINFELD": "2", "SPEED": "3", "ARMAGEDDON": "4", "TITANIC": "5", "GHOST": "6", "FRIDAY": "7", "FRIENDS": "8", "ER": "9",
 "THE SIMPSONS": "10", "FAMILY MATTERS": "11", "INDEPENDENCE DAY": "12", "FORREST GUMP": "13", "PRETTY WOMAN": "14", "BEFORE SUNRISE": "15", "LION KING": "16", 
-"TOY STORY": "17", "THE MATRIX": "18", "BAD BOYS": "19", "GOOD FELLAS": "20", "BOYZ IN THE HOOD": "21", "HE GOT GAME": "22", "SAVING PRIVATE RYAN": "23",
-filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "THE SIMPSONS", "FAMILY MATTERS", 
-"INDEPENDENCE DAY", "FORREST GUMP", "PRETTY WOMAN", "BEFORE SUNRISE", "LION KING", "TOY STORY", "THE MATRIX", "BAD BOYS", "GOOD FELLAS", 
-"BOYZ IN THE HOOD", "HE GOT GAME", "SAVING PRIVATE RYAN"], 
+"TOY STORY": "17", "THE MATRIX": "18", "BAD BOYS": "19", "GOOD FELLAS": "20", "BOYZ IN THE HOOD": "21", "HE GOT GAME": "22", "SAVING PRIVATE RYAN": "23"}
+
+//ninetiesGame is the actual object for the project.
+var ninetiesGame = {"BRAVEHEART": "1", "SEINFELD": "2", "SPEED": "3", "ARMAGEDDON": "4", "TITANIC": "5", "GHOST": "6", "FRIDAY": "7", "FRIENDS": "8", 
+"ER": "9", "FRASIER": "10", "MARTIN": "11", "CHEERS": "12", 
+filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "FRASIER", "MARTIN", "CHEERS"], 
 numGuess: 0,
 currFilm: "",
 currClip: "",
@@ -66,15 +67,17 @@ setClipFilm: function() {
 
 updateNumGuess: function() {
     if (this.numGuess === 0) {
-        console.log("Right execution flow? Yes.....")
+        console.log("resetting numGuess for new word............")
         this.numGuess = this.currFilm.length + 3;
     }
    
 },
 
-isLetterValid: function(newLetter) {
+isLetterValid: function(newKey) {
     //Returns a boolean, indicating whether the letter picked by the user is valid(non-repeating).
-    if (this.currState.includes(newLetter)) {
+    var letterStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var indexOfKey = letterStr.indexOf(newKey);
+    if (this.currState.includes(newKey) || indexOfKey === -1) {
         return false;
     }
     else{
@@ -126,7 +129,7 @@ createCurrState: function() {
         }
     }
     console.log(this.currState);
-    console.log(this.currState[3]);
+    
 
 },
 
@@ -141,6 +144,17 @@ updateCurrState: function(nLetter) {
             }
         }
     }
+},
+resetGame: function() {
+    //resets the game after a loss or a win. Also update win counts.
+    if (this.isRandFilm)  {
+        numWins++;
+    }
+    this.currFilm = "";
+    this.currClip = "";
+    this.allGuess = [];
+    this.currState = [];
+    this.isRandFilm = false;
 }
 };
 ninetiesGame.setCurrFilm();
@@ -148,8 +162,9 @@ console.log("random film: " + ninetiesGame.currFilm);  //ok
 ninetiesGame.createCurrState();
 console.log(ninetiesGame.currState);  //? should be empty?!**********
 ninetiesGame.setClipFilm();
-console.log("link # of random film: " + ninetiesGame.currClip);  //ok
+//console.log("link # of random film: " + ninetiesGame.currClip);  //ok
 console.log("The number of guesses left " + ninetiesGame.numGuess); //ok
+/*
 var checkLetterValid = ninetiesGame.isLetterValid("T");
 console.log("The letter pick is valid: " + checkLetterValid); //ok
 ninetiesGame.addLetterGuessed("T");
@@ -186,4 +201,49 @@ ninetiesGame.addLetterGuessed("O");
 ninetiesGame.updateCurrState("O");
 console.log("User's guesses so far: " +ninetiesGame.allGuess);
 console.log("Current state of the round: " + ninetiesGame.currState);
-console.log("The number of guesses left " + ninetiesGame.numGuess);
+console.log("The number of guesses left " + ninetiesGame.numGuess);*/
+
+document.onkeyup = function(event) {
+    //event is triggered when the user presses and releases a key
+
+    //determine the letter the user picked
+    var userPick = event.key;
+    //convert all user picks(letters) to uppercase.
+    userPick = userPick.toUpperCase();
+    console.log(userPick);
+
+    console.log("==============================================================================");
+    ninetiesGame.addLetterGuessed(userPick);
+    ninetiesGame.updateCurrState(userPick);
+    console.log("User's guesses so far: " + ninetiesGame.allGuess);
+    console.log("Current state of the round: " + ninetiesGame.currState);
+    console.log("The number of guesses left " + ninetiesGame.numGuess);
+    console.log("==============================================================================");
+    //if the rounds ends in a win or otherwise, then reset the game.
+    if (ninetiesGame.numGuess === 0 || (!ninetiesGame.currState.includes("_ ") && !ninetiesGame.currState.includes("_"))) {
+        ninetiesGame.numGuess = 0;
+        //if the round ended in a wiin, update number of wins.S
+        if (!ninetiesGame.currState.includes("_ ") && !ninetiesGame.currState.includes("_")) {
+            ninetiesGame.isRandFilm = true;
+        }
+        ninetiesGame.resetGame();
+        //preparing for a new round!
+        ninetiesGame.setCurrFilm();
+        console.log(ninetiesGame.currFilm);
+        ninetiesGame.createCurrState();
+        ninetiesGame.setClipFilm();
+    }
+    
+    console.log(numWins);
+
+
+
+
+
+
+
+
+
+
+
+}
