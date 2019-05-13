@@ -4,8 +4,13 @@ var numWins = 0;       //Number of wins so far(all the rounds).
 
 
 //ninetiesGame is the object for the project.
-var ninetiesGame = {"BRAVEHEART": 'src="https://www.youtube.com/embed/1NJO0jxBtMo"', "SEINFELD": 'src="https://www.youtube.com/embed/4T2GmGSNvaM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "SPEED": '<iframe width="560" height="315" src="https://www.youtube.com/embed/Fk4A1AY10U0"', "ARMAGEDDON": 'src="https://www.youtube.com/embed/kg_jH47u480"', "TITANIC": '<iframe width="560" height="315" src="https://www.youtube.com/embed/2e-eXJ6HgkQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "GHOST": '<iframe width="560" height="315" src="https://www.youtube.com/embed/7g8txBxL7zg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIDAY": '<iframe width="560" height="315" src="https://www.youtube.com/embed/nH1Ulp4PBtA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRIENDS": '<iframe width="560" height="315" src="https://www.youtube.com/embed/1lMIh9dYNb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 
-"ER": '<iframe width="560" height="315" src="https://www.youtube.com/embed/LjPf1_3H3fs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "FRASIER": '<iframe width="560" height="315" src="https://www.youtube.com/embed/JbRbfj7Ig74" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "MARTIN": '<iframe width="560" height="315" src="https://www.youtube.com/embed/RWbJ-reslRs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', "CHEERS": '<iframe width="560" height="315" src="https://www.youtube.com/embed/l5betsZNsGM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', 
+
+var ninetiesGame = {"BRAVEHEART": "https://www.youtube.com/embed/1NJO0jxBtMo", "SEINFELD": "https://www.youtube.com/embed/4T2GmGSNvaM", 
+"SPEED": "https://www.youtube.com/embed/Fk4A1AY10U0", "ARMAGEDDON": "https://www.youtube.com/embed/kg_jH47u480", 
+"TITANIC": "https://www.youtube.com/embed/2e-eXJ6HgkQ", "GHOST": "https://www.youtube.com/embed/7g8txBxL7zg", 
+"FRIDAY": "https://www.youtube.com/embed/nH1Ulp4PBtA", "FRIENDS": "https://www.youtube.com/embed/1lMIh9dYNb8", 
+"ER": "https://www.youtube.com/embed/LjPf1_3H3fs", "FRASIER": "https://www.youtube.com/embed/JbRbfj7Ig74", 
+"MARTIN": "https://www.youtube.com/embed/RWbJ-reslRs", "CHEERS": "https://www.youtube.com/embed/l5betsZNsGM", 
 filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "FRASIER", "MARTIN", "CHEERS"], 
 numGuess: 0,
 currFilm: "",
@@ -14,7 +19,7 @@ allGuess: [],
 currState: [],    //Array holds the current state of the game(empty slots, correct guesses or a combination of both)
 isRandFilm: true, //Will use this boolean to return the clip that will play after the user successfully guesses the film title.
 
-
+//amargeddon vidoe not loading********
 
 setCurrFilm: function() {
     //sets a film title using a random function.
@@ -171,10 +176,13 @@ document.onkeyup = function(event) {
         //if the round ended in a wiin, update number of wins.S
         if (!ninetiesGame.currState.includes("_ ") && !ninetiesGame.currState.includes("_")) {
             ninetiesGame.isRandFilm = true;
+            ninetiesGame.setClipFilm();
             console.log(ninetiesGame.currClip);
             document.getElementById("title-id").textContent = ninetiesGame.currFilm;
-            document.getElementsByClassName("embed-responsive-item")[0].src = ninetiesGame.currClip;
-
+            //Access iframe tag and set the src attribute to autoplay the current clip.
+            var iframeTag = document.getElementsByTagName("iframe")[0];
+            var autoPlayUrl = ninetiesGame.currClip + "?autoplay=1";
+            iframeTag.setAttribute("src", autoPlayUrl);
         }
         ninetiesGame.resetGame();
         //preparing for a new round!
@@ -187,8 +195,11 @@ document.onkeyup = function(event) {
     console.log(numWins);
     w.textContent= numWins;
 
-
-
+//OPTMIZING CODE:
+//1)how to get the videos to play automatically 
+//2)how to get the display to reset automatically without the user pressing anything.
+//3)how to position and align(maybe side by side) an image inside of the jumotron div.
+//4)getElementsByClassname didn't work for to access iframe tag, but getElementsByTagName did.
 
 
 
