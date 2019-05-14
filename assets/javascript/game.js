@@ -5,13 +5,13 @@ var numWins = 0;       //Number of wins so far(all the rounds).
 
 //ninetiesGame is the object for the project.
 
-var ninetiesGame = {"BRAVEHEART": "https://www.youtube.com/embed/1NJO0jxBtMo", "SEINFELD": "https://www.youtube.com/embed/4T2GmGSNvaM", 
+var ninetiesGame = {"BRAVEHEART": "https://www.youtube.com/embed/1NJO0jxBtMo", "SEINFELD": "https://www.youtube.com/embed/HX55AzGku5Y", 
 "SPEED": "https://www.youtube.com/embed/Fk4A1AY10U0", "ARMAGEDDON": "https://www.youtube.com/embed/kg_jH47u480", 
 "TITANIC": "https://www.youtube.com/embed/2e-eXJ6HgkQ", "GHOST": "https://www.youtube.com/embed/7g8txBxL7zg", 
-"FRIDAY": "https://www.youtube.com/embed/nH1Ulp4PBtA", "FRIENDS": "https://www.youtube.com/embed/1lMIh9dYNb8", 
-"ER": "https://www.youtube.com/embed/LjPf1_3H3fs", "FRASIER": "https://www.youtube.com/embed/JbRbfj7Ig74", 
+"FRIDAY": "https://www.youtube.com/embed/nH1Ulp4PBtA", "FRIENDS": "https://www.youtube.com/embed/P5TMcx0ofEc", 
+"ER": "https://www.youtube.com/embed/LjPf1_3H3fs", 
 "MARTIN": "https://www.youtube.com/embed/RWbJ-reslRs", "CHEERS": "https://www.youtube.com/embed/l5betsZNsGM", 
-filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "FRASIER", "MARTIN", "CHEERS"], 
+filmTitles: ["BRAVEHEART", "SEINFELD", "SPEED", "ARMAGEDDON", "TITANIC", "GHOST", "FRIDAY", "FRIENDS", "ER", "MARTIN", "CHEERS"], 
 numGuess: 0,
 currFilm: "",
 currClip: "",
@@ -62,12 +62,12 @@ isLetterValid: function(newKey) {
 },
 
 addLetterGuessed: function(nLetter) {
-    //adds letter guessed to two arrays and update number of user guesses.
+    //adds unique letter guessed to an array and updates number of user guesses.
     var userLetter = nLetter;
-    if (this.isLetterValid(userLetter)) {
+    if (this.isLetterValid(userLetter) && !this.allGuess.includes(userLetter)) {
         //update number of guesses
         this.numGuess--;
-        //add guess to the array recording all the guesses
+        //add guess to the array recording all the unique guesses
         this.allGuess.push(userLetter);
 
 
@@ -141,7 +141,9 @@ w.appendChild(wn);
 
 //current state
 var cs = document.createElement("p");
-var cn = document.createTextNode(ninetiesGame.currState);
+var cn = document.createTextNode(ninetiesGame.currState.join(""));
+//get rid of commas, so that user sees currState as a string.
+console.log(ninetiesGame.currState.join(""));
 cs.appendChild(cn);
 
 
@@ -168,7 +170,8 @@ document.onkeyup = function(event) {
     console.log("The number of guesses left " + ninetiesGame.numGuess);
     pg.textContent= ninetiesGame.numGuess;
     ag.textContent= ninetiesGame.allGuess;
-    cs.textContent= ninetiesGame.currState;
+    //get rid of commas, so that user sees currState as a string.
+    cs.textContent= ninetiesGame.currState.join("");
     console.log("==============================================================================");
     //if the rounds ends in a win or otherwise, then reset the game.
     if (ninetiesGame.numGuess === 0 || (!ninetiesGame.currState.includes("_ ") && !ninetiesGame.currState.includes("_"))) {
@@ -182,6 +185,7 @@ document.onkeyup = function(event) {
             //Access iframe tag and set the src attribute to autoplay the current clip.
             var iframeTag = document.getElementsByTagName("iframe")[0];
             var autoPlayUrl = ninetiesGame.currClip + "?autoplay=1";
+            console.log(autoPlayUrl);
             iframeTag.setAttribute("src", autoPlayUrl);
         }
         ninetiesGame.resetGame();
@@ -196,10 +200,106 @@ document.onkeyup = function(event) {
     w.textContent= numWins;
 
 //OPTMIZING CODE:
-//1)how to get the videos to play automatically 
-//2)how to get the display to reset automatically without the user pressing anything.
+//1)Autoplay works occasionally. Why?
+//2)Don't know why some videos didn't work(FRAZIER, SEINFELD, FRIENDS); got the following messages in console:
+//VM5927:1 POST https://www.youtube.com/ad_data_204 net::ERR_NETWORK_IO_SUSPENDED
+//VM5927:1 GET https://googleads.g.doubleclick.net/pagead/id net::ERR_NETWORK_IO_SUSPENDED
+/*
+(anonymous) @ VM5927:1
+Le @ www-embed-player.js:384
+Ke @ www-embed-player.js:369
+(anonymous) @ www-embed-player.js:625
+J @ www-embed-player.js:251
+oi @ www-embed-player.js:622
+(anonymous) @ www-embed-player.js:639
+(anonymous) @ www-embed-player.js:339
+setTimeout (async)
+S @ www-embed-player.js:357
+zi @ www-embed-player.js:639
+xi @ www-embed-player.js:637
+e.f @ www-embed-player.js:262
+Hd @ www-embed-player.js:275
+Cd @ www-embed-player.js:274
+J.m @ www-embed-player.js:273
+Tc @ www-embed-player.js:208
+Promise.then (async)
+Pc @ www-embed-player.js:206
+Oc @ www-embed-player.js:205
+Ed @ www-embed-player.js:271
+sd @ www-embed-player.js:267
+(anonymous) @ www-embed-player.js:251
+a.onSuccess @ www-embed-player.js:622
+(anonymous) @ www-embed-player.js:369
+(anonymous) @ www-embed-player.js:339
+g @ www-embed-player.js:383
+XMLHttpRequest.send (async)
+(anonymous) @ VM5927:1
+Le @ www-embed-player.js:384
+Ke @ www-embed-player.js:369
+(anonymous) @ www-embed-player.js:625
+J @ www-embed-player.js:251
+oi @ www-embed-player.js:622
+(anonymous) @ www-embed-player.js:639
+(anonymous) @ www-embed-player.js:339
+setTimeout (async)
+S @ www-embed-player.js:357
+zi @ www-embed-player.js:639
+xi @ www-embed-player.js:637
+e.f @ www-embed-player.js:262
+Hd @ www-embed-player.js:275
+Cd @ www-embed-player.js:274
+J.m @ www-embed-player.js:273
+Tc @ www-embed-player.js:208
+Promise.then (async)
+Pc @ www-embed-player.js:206
+Oc @ www-embed-player.js:205
+Ed @ www-embed-player.js:271
+sd @ www-embed-player.js:267
+(anonymous) @ www-embed-player.js:251
+a.onSuccess @ www-embed-player.js:622
+(anonymous) @ www-embed-player.js:369
+(anonymous) @ www-embed-player.js:339
+g @ www-embed-player.js:383
+XMLHttpRequest.send (async)
+(anonymous) @ VM5927:1
+Le @ www-embed-player.js:384
+Ke @ www-embed-player.js:369
+(anonymous) @ www-embed-player.js:625
+J @ www-embed-player.js:251
+oi @ www-embed-player.js:622
+(anonymous) @ www-embed-player.js:639
+(anonymous) @ www-embed-player.js:339
+setTimeout (async)
+S @ www-embed-player.js:357
+zi @ www-embed-player.js:639
+xi @ www-embed-player.js:637
+e.f @ www-embed-player.js:262
+Hd @ www-embed-player.js:275
+Cd @ www-embed-player.js:274
+J.m @ www-embed-player.js:273
+Tc @ www-embed-player.js:208
+Promise.then (async)
+Pc @ www-embed-player.js:206
+Oc @ www-embed-player.js:205
+Ed @ www-embed-player.js:271
+sd @ www-embed-player.js:267
+(anonymous) @ www-embed-player.js:251
+a.onSuccess @ www-embed-player.js:622
+(anonymous) @ www-embed-player.js:369
+(anonymous) @ www-embed-player.js:339
+g @ www-embed-player.js:383
+XMLHttpRequest.send (async)
+(anonymous) @ VM5927:1
+Le @ www-embed-player.js:384
+Ke @ www-embed-player.js:369
+(anonymous) @ www-embed-player.js:625
+J @ www-embed-player.js:251
+oi @ www-embed-player.js:622
+(anonymous) @ www-embed-player.js:639
+(anonymous) @ www-embed-player.js:339*/
 //3)how to position and align(maybe side by side) an image inside of the jumotron div.
 //4)getElementsByClassname didn't work for to access iframe tag, but getElementsByTagName did.
+
 
 
 
