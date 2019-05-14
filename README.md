@@ -7,7 +7,7 @@ The program is a wonderful way to improve your powers of deduction and reminesce
 *Please start the game by pressing the space bar*. The program will then randomly pick a film title and display the number of guesses for the round. Press any letter key to start guessing. The letters guessed will be displayed for the user to track all the guesses. Note that repeated guesses are not displayed and do not affect the number of guesses left; also, other characters such as 'Tab', 'Shift', and so on, do not affect the number of guesses left. If the user wins the round or has exhausted all the guesses, *please press the space bar again to start a new round*.
 
 
-## Contact me about the Word Guess Game. ##
+### Contact me about the Word Guess Game. ###
 maafadina@gmail.com
 
 

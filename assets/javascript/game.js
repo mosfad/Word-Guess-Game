@@ -185,6 +185,8 @@ document.onkeyup = function(event) {
             //Access iframe tag and set the src attribute to autoplay the current clip.
             var iframeTag = document.getElementsByTagName("iframe")[0];
             var autoPlayUrl = ninetiesGame.currClip + "?autoplay=1";
+            //Set "allow" attribute to "autoplay" value for current clip to autoplay -> see the iframe tag
+            console.log(iframeTag);
             console.log(autoPlayUrl);
             iframeTag.setAttribute("src", autoPlayUrl);
         }
